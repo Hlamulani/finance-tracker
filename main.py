@@ -29,3 +29,19 @@ def add_expense(date, category, description, amount):
     conn.close()
 
 add_expense("2026-09-03", "Food", "Grocerries", 450.00)
+
+def view_expenses():
+    conn = sqlite3.connect("expenses.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT *  FROM expenses")
+    rows = cursor.fetchall()
+
+    for row in rows:
+        print(row)
+
+    conn.close()
+
+# add_expense("2026-09-04", "Transport", "Uber", 120.00)
+# add_expense("2026-09-05", "Entertainment", "Movies", 90.00)
+view_expenses()
