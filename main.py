@@ -15,3 +15,17 @@ cursor.execute("""
 
 conn.commit()   # save the change
 conn.close()    # close the connection
+
+def add_expense(date, category, description, amount):
+    conn = sqlite3.connect("expenses.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        INSERT INTO expenses (date, category, description, amount)
+        VALUES (?, ?, ?, ?)
+    """, (date, category, description, amount))
+
+    conn.commit()
+    conn.close()
+
+add_expense("2026-09-03", "Food", "Grocerries", 450.00)
