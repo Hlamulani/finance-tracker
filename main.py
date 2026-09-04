@@ -43,6 +43,35 @@ def view_expenses():
 
     conn.close()
 
-# add_expense("2026-09-04", "Transport", "Uber", 120.00)
-# add_expense("2026-09-05", "Entertainment", "Movies", 90.00)
+add_expense("2026-09-04", "Transport", "Uber", 120.00)
+add_expense("2026-09-05", "Entertainment", "Movies", 90.00)
 view_expenses()
+
+def monthly_summary():
+    conn = sqlite3.connect("expenses.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT strftime('%Y-%m', date) AS month, SUM(amount) AS total
+        FROM expenses
+        GROUP BY month
+    """)
+    rows = cursor.fetchall()
+
+    for row in rows:
+        month, total = row
+        print(f"{month}: R{total}")
+
+    conn.close()
+
+view_expenses()
+monthly_summary()
+
+def clear_expenses():
+    conn = sqlite3.connect("expenses.db")
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM expenses")
+    conn.commit()
+    conn.close()
+
+# clear_expenses()
