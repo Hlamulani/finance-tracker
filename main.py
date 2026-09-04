@@ -38,7 +38,8 @@ def view_expenses():
     rows = cursor.fetchall()
 
     for row in rows:
-        print(row)
+        id, date, category, description, amount = row
+        print(f"{id} | {date} | {category} | {description} | R{amount}")
 
     conn.close()
 
