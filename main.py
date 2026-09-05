@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import datetime
 
 conn = sqlite3.connect("expenses.db")   # connect (creates file if not needed)
 cursor = conn.cursor()                  # get a cursor tp run commands
@@ -79,7 +80,7 @@ def clear_expenses():
 def main_menu():
     while True:
         print("\n--- Finace Tracker ---")
-        print("1. Add excpense")
+        print("1. Add expense")
         print("2. View expenses")
         print("3. Monthly summary")
         print("4. Exit")
@@ -88,12 +89,27 @@ def main_menu():
 
         if choice == "1":
             print("You chose to add an expense")
-            date = input("Enter date (YYY-MM-DD): ")
+            while True:
+                date = input("Enter date (YYY-MM-DD): ")
+                try:
+                    datetime.strptime(date, "%Y-%m-%d")
+                    break
+                except ValueError:
+                    print("Invalid date format, please use YYY-MM-DD")
+
             category = input("Enter category: ")
+
             description = input("Enter the description: ")
-            amount = float(input("Enter amount: R"))
+
+            while True:
+                try:
+                    amount = float(input("Enter amount: R_"))
+                    break # only reached if float() suceeds
+                except ValueError:
+                    print("Invalid amount, please enter a number.")
             add_expense(date, category, description, amount)
             print("Expense added!")
+
         elif choice == "2":
             print("Detailed Expenses")
             view_expenses()
