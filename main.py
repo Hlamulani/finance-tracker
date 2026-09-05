@@ -65,8 +65,8 @@ def monthly_summary():
 
     conn.close()
 
-view_expenses()
-monthly_summary()
+# view_expenses()
+# monthly_summary()
 
 def clear_expenses():
     conn = sqlite3.connect("expenses.db")
@@ -113,6 +113,17 @@ def main_menu():
         elif choice == "2":
             print("Detailed Expenses")
             view_expenses()
+
+            delete_choice = input("\nDo you want to delete an expense? (y/n): ")
+            if delete_choice.lower() == "y":
+                delete_exp = input("Enter the ID you want to delete: ")
+                confirm_delete = input(f"Delete expense {delete_exp} \n. 1 Yes \n2. Cancel: ")
+                if confirm_delete == "1":
+                    delete_expense(int(delete_exp))
+                    print(f"You have successfully deleted {delete_exp}")
+                else:
+                    print("Cancelled.")
+
         elif choice == "3":
             print("Here's your monthly summary")
             monthly_summary()
@@ -121,5 +132,14 @@ def main_menu():
             break
         else:
             print("Invalid option, try again")
+
+def delete_expense(expense_id):
+    conn = sqlite3.connect("expenses.db")
+    cursor = conn.cursor()
+
+    cursor.execute("DELETE FROM expenses WHERE id = ?", (expense_id,))
+
+    conn.commit()
+    conn.close()
 
 main_menu()
