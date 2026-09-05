@@ -28,7 +28,9 @@ def add_expense(date, category, description, amount):
     conn.commit()
     conn.close()
 
-add_expense("2026-09-03", "Food", "Grocerries", 450.00)
+# add_expense("2026-09-03", "Food", "Grocerries", 450.00)
+# add_expense("2026-09-04", "Transport", "Uber", 120.00)
+# add_expense("2026-09-05", "Entertainment", "Movies", 90.00)
 
 def view_expenses():
     conn = sqlite3.connect("expenses.db")
@@ -43,9 +45,7 @@ def view_expenses():
 
     conn.close()
 
-add_expense("2026-09-04", "Transport", "Uber", 120.00)
-add_expense("2026-09-05", "Entertainment", "Movies", 90.00)
-view_expenses()
+# view_expenses()
 
 def monthly_summary():
     conn = sqlite3.connect("expenses.db")
@@ -75,3 +75,35 @@ def clear_expenses():
     conn.close()
 
 # clear_expenses()
+
+def main_menu():
+    while True:
+        print("\n--- Finace Tracker ---")
+        print("1. Add excpense")
+        print("2. View expenses")
+        print("3. Monthly summary")
+        print("4. Exit")
+
+        choice = input("Choose an option: ")
+
+        if choice == "1":
+            print("You chose to add an expense")
+            date = input("Enter date (YYY-MM-DD): ")
+            category = input("Enter category: ")
+            description = input("Enter the description: ")
+            amount = float(input("Enter amount: R"))
+            add_expense(date, category, description, amount)
+            print("Expense added!")
+        elif choice == "2":
+            print("Detailed Expenses")
+            view_expenses()
+        elif choice == "3":
+            print("Here's your monthly summary")
+            monthly_summary()
+        elif choice == "4":
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid option, try again")
+
+main_menu()
