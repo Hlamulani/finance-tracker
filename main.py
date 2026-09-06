@@ -114,15 +114,37 @@ def main_menu():
             print("Detailed Expenses")
             view_expenses()
 
-            delete_choice = input("\nDo you want to delete an expense? (y/n): ")
-            if delete_choice.lower() == "y":
+            print("\n1. Delete expense")
+            print("2. Edit expenses")
+            print("3. Back to main menu")
+            sub_choice = input("Choose an option: ")
+
+            if sub_choice == "1":
                 delete_exp = input("Enter the ID you want to delete: ")
-                confirm_delete = input(f"Delete expense {delete_exp} \n. 1 Yes \n2. Cancel: ")
+                confirm_delete = input(f"Delete {delete_exp}? \n1. Yes \n2. cancel")
                 if confirm_delete == "1":
                     delete_expense(int(delete_exp))
                     print(f"You have successfully deleted {delete_exp}")
                 else:
                     print("Cancelled.")
+
+            elif sub_choice == "2":
+                edit_id = input("Enter the ID you want to edit: ")
+                new_category = input("Enter new category: ")
+                new_description = input("Enter new description: ")
+                while True:
+                    try:
+                        new_amount = float(input("Enter new amount: R "))
+                        break
+                    except ValueError:
+                        print("Invalid amount, please enter a number.")
+                edit_expense(int(edit_id), new_category, new_description, new_amount)
+                print(f"Expense {edit_id} updated!")
+
+            elif sub_choice == "3":
+                pass
+            else:
+                print("Invlaid option.")
 
         elif choice == "3":
             print("Here's your monthly summary")
@@ -138,6 +160,19 @@ def delete_expense(expense_id):
     cursor = conn.cursor()
 
     cursor.execute("DELETE FROM expenses WHERE id = ?", (expense_id,))
+
+    conn.commit()
+    conn.close()
+
+def edit_expense(expense_id, category, description, amount):
+    conn = sqlite3.connect("expenses.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        UPDATE expenses
+        SET category = ?, description = ?, amount =?
+        WHERE id = ?
+    """, (category, description, amount, expense_id))
 
     conn.commit()
     conn.close()
