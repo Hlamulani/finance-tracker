@@ -1,5 +1,6 @@
 import sqlite3
 from datetime import datetime
+import pandas as pd
 
 conn = sqlite3.connect("expenses.db")   # connect (creates file if not needed)
 cursor = conn.cursor()                  # get a cursor tp run commands
@@ -177,4 +178,12 @@ def edit_expense(expense_id, category, description, amount):
     conn.commit()
     conn.close()
 
-main_menu()
+def load_data():
+    conn = sqlite3.connect("expenses.db")
+    df = pd.read_sql_query("SELECT * FROM expenses", conn)
+    conn.close()
+    return df
+
+# main_menu()
+df = load_data()
+print(df)
