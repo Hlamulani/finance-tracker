@@ -89,7 +89,8 @@ def main_menu():
         print("1. Add expense")
         print("2. View expenses")
         print("3. Monthly summary")
-        print("4. Exit")
+        print("4. Category summary")
+        print("5. Exit")
 
         choice = input("Choose an option: ")
 
@@ -155,7 +156,13 @@ def main_menu():
         elif choice == "3":
             print("Here's your monthly summary")
             monthly_summary()
+
         elif choice == "4":
+            print("Here's your category summary")
+            category_summary()
+            input("\nPress Enter to return to the main menu...")
+
+        elif choice == "5":
             print("Goodbye!")
             break
         else:
@@ -189,5 +196,5 @@ def load_data():
     conn.close()
     return df
 
-# main_menu()
-category_summary()
+main_menu()
+# category_summary()
