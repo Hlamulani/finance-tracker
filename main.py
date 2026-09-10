@@ -69,6 +69,11 @@ def monthly_summary():
 # view_expenses()
 # monthly_summary()
 
+def category_summary():
+    df = load_data()
+    summary = df.groupby("category")["amount"].sum()
+    print(summary)
+
 def clear_expenses():
     conn = sqlite3.connect("expenses.db")
     cursor = conn.cursor()
@@ -185,5 +190,4 @@ def load_data():
     return df
 
 # main_menu()
-df = load_data()
-print(df)
+category_summary()
