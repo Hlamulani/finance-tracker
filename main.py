@@ -1,6 +1,7 @@
 import sqlite3
 from datetime import datetime
 import pandas as pd
+import matplotlib.pyplot as plt
 
 conn = sqlite3.connect("expenses.db")   # connect (creates file if not needed)
 cursor = conn.cursor()                  # get a cursor tp run commands
@@ -196,5 +197,17 @@ def load_data():
     conn.close()
     return df
 
-main_menu()
+def plot_category_summary():
+    df = load_data()
+    summary = df.groupby("category")["amount"].sum()
+
+    summary.plot(kind="bar")
+    plt.title("Spending by Category")
+    plt.xlabel("Category")
+    plt.ylabel("Amount (R)")
+    plt.tight_layout()
+    plt.show()     
+
+# main_menu()
 # category_summary()
+plot_category_summary()
